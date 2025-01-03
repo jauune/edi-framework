@@ -161,9 +161,8 @@ class EDIBackend(models.Model):
         if exchange_type.exchange_file_ext:
             bits.append(r"\." + exchange_type.exchange_file_ext)
         pattern = "".join(bits)
-        full_paths = utils.find_files(self.storage_id, pattern, full_input_dir_pending)
-        pending_path_len = len(full_input_dir_pending)
-        return [p[pending_path_len:].strip("/") for p in full_paths]
+        filenames = [x for x in utils.find_files(self.storage_id, pattern, full_input_dir_pending) if x.strip("/")]
+        return filenames
 
     def _storage_new_exchange_record_vals(self, file_name):
         return {
